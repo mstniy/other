@@ -1,0 +1,45 @@
+Gazeboda Offboard Kontrol Simülasyonu Tutorial'ı
+
+Virtualbox'ta Guest Additions yükleyince Gazebo çalışmıyor!
+
+Başlamadan önce: Eğer uzun bir süredir kullanılmayan/internete bağlanmayan bir ubuntu makineyi/virtual machine'i kullanıyorsanız açılışta python kendini güncellemeye çalışabiliyor.
+Kendini güncellemeye bağladığında paket yöneticisini kilitliyor ve hiçbir paket yükleyemiyorsunuz. Bu durumda python güncellemesinin bitmesini beklemelisiniz.
+"ps -aux | grep python" komutunu çalıştırdığınızda apt_check, aptd veya unattended_upgrade içeren satırlar görüyorsanız python muhtemelen kendisini güncelliyordur.
+
+Gereken yazılımları yükleyen script: https://raw.githubusercontent.com/PX4/Devguide/master/build_scripts/ubuntu_sim_ros_gazebo.sh
+  ->Ros, mavros ve gazeboyu yüklüyor
+  ->Catkin workspace'i oluşturuyor (~/catkin_ws altına)
+  ->PX4 reposunu klonluyor (~/src/Firmware altına)
+Scripti internetten indirmek için:
+  wget https://raw.githubusercontent.com/PX4/Devguide/master/build_scripts/ubuntu_sim_ros_gazebo.sh
+  chmod +x ubuntu_sim_ros_gazebo.sh
+Scripti çalıştırın:
+  ./ubuntu_sim_ros_gazebo.sh
+Bu script (ubuntu_sim_ros_gazebo.sh) bittikten sonra oluşan catkin workspace'te yeni bir ros package oluşturun:
+  cd ~/catkin_ws/src
+  catkin_create_pkg offboard_tutorial roscpp rospy std_msgs geometry_msgs mavros_msgs message_runtime message_generation
+Oluşan paketin CMakeLists.txt'sini düzenlememiz gerekiyor:
+  ~/catkin_ws/src/offboard_tutorial'deki CMakeLists.txt'yi bir editörle açın
+  Comment out edilmiş (satırın başına # eklenmiş) bir add_executable satırı var, onun altına şu satırı ekleyin:
+    add_executable(offb_node src/offb_node.cpp)
+  Comment out edilmiş bir target_link_libraries satırı var, onun altına şu satırları ekleyin:
+    target_link_libraries(offb_node
+      ${catkin_LIBRARIES}
+    )
+PX4 sitesindeki tutorialdaki (https://dev.px4.io/en/ros/mavros_offboard.html) cpp kodunu ~/catkin_ws/src/offboard_tutorial/src altına offb_node.cpp ismiyle kaydedin
+cd ~/catkin_ws
+catkin build
+Build bitince
+  roslaunch mavros px4.launch fcu_url:="udp://:14540@127.0.0.1:14557"
+Ayrı bir terminalde
+  rosrun offboard_tutorial offb_node
+Üçüncü bir terminalde
+  cd ~/src/Firmware
+  make posix_sitl_default gazebo
+  source ~/catkin_ws/devel/setup.bash
+  source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/posix_sitl_default
+  export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)
+  export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo
+  roslaunch px4 posix_sitl.launch
+
+Bu işlemlerin sonunda gazebo'nun açılması, ekranda bir drone çıkması ve bir süre sonra o drone'un yavaşça kalkış yapması lazım. Drone biraz küçük, arka plandan zor ayırt ediliyor olabilir, biraz dikkatli bakın.
