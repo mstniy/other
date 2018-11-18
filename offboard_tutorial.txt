@@ -15,7 +15,8 @@ Scripti internetten indirmek için:
   chmod +x ubuntu_sim_ros_gazebo.sh
 Scripti çalıştırın:
   ./ubuntu_sim_ros_gazebo.sh
-Bu script (ubuntu_sim_ros_gazebo.sh) bittikten sonra oluşan catkin workspace'te yeni bir ros package oluşturun:
+Bu script (ubuntu_sim_ros_gazebo.sh) bittikten sonra terminali kapatıp açın ki yeni oluşan catkin workspace'i environment variable'lara yüklensin.
+Oluşan catkin workspace'te yeni bir ros package oluşturun:
   cd ~/catkin_ws/src
   catkin_create_pkg offboard_tutorial roscpp rospy std_msgs geometry_msgs mavros_msgs message_runtime message_generation
 Oluşan paketin CMakeLists.txt'sini düzenlememiz gerekiyor:
