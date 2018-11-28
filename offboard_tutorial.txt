@@ -36,7 +36,7 @@ Ayrı bir terminalde
   rosrun offboard_tutorial offb_node
 Üçüncü bir terminalde
   cd ~/src/Firmware
-  make posix_sitl_default gazebo
+  make posix_sitl_default gazebo # Bu komut internetten bir seyler indiriyor, internetiniz yavassa uzun surebilir, dondu sanmayin.
   source ~/catkin_ws/devel/setup.bash
   source Tools/setup_gazebo.bash $(pwd) $(pwd)/build/posix_sitl_default
   export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)
