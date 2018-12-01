@@ -1,0 +1,16 @@
+ardrone_autonomy yükleyin:
+  cd ~/catkin_ws/src
+  git clone https://github.com/AutonomyLab/ardrone_autonomy.git
+cv_bridge yükleyin:
+  https://github.com/ros-perception/vision_opencv adresine gidin ve repo'yu indirin
+  "cv_bridge" klasörünü ~/catkin_ws/src'ye kopyalayın
+ardrone_opencv_demo yükleyin:
+  https://github.com/mstniy/other/ adresine gidin ve repo'yu indirin
+  "ardrone_opencv_demo" klasörünü ~/catkin_ws/src'ye kopyalayın
+cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src -y
+catkin build
+source devel/setup.bash
+
+Kurulumu test etmek için ardrone'un pilini takın, bilgisayardan ardrone wifi'ına bağlanın ve:
+roslaunch ardrone_opencv_demo demo.launch
