@@ -1,0 +1,24 @@
+<package format="2">
+	<name>ardrone_opencv_demo</name>
+	<version>1.0.0</version>
+	<description>
+		Demo for image communication between Ardrone and Opencv
+	</description>
+	<maintainer email="kartalkaanbozdogan@gmail.com">Kartal Kaan Bozdoğan</maintainer>
+	
+	<buildtool_depend>catkin</buildtool_depend>
+
+	<build_depend>roscpp</build_depend>
+	<build_depend>std_msgs</build_depend>
+	<build_depend>geometry_msgs</build_depend>
+	<build_depend>ardrone_autonomy</build_depend>
+	<build_depend>message_generation</build_depend>
+	
+	<exec_depend>ardrone_autonomy</exec_depend>
+	<exec_depend>message_generation</exec_depend>
+	
+	<license>MIT</license>
+	<url>http://github.com/mstniy/other</url>
+</package>
+
+
